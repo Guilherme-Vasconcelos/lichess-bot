@@ -3,11 +3,11 @@ url: "https://lichess.org/"        # Lichess base URL.
 
 engine:                            # Engine settings.
   dir: "./engines/"                # Directory containing the engine. This can be an absolute path or one relative to lichess-bot/.
-  name: "engine_name"              # Binary name of the engine to use.
-  working_dir: ""                  # Directory where the chess engine will read and write files. If blank or missing, the current directory is used.
+  name: "chessy_start"              # Binary name of the engine to use.
+  working_dir: "./engines"                  # Directory where the chess engine will read and write files. If blank or missing, the current directory is used.
                                    # NOTE: If working_dir is set, the engine will look for files and directories relative to this directory, not where lichess-bot was launched. Absolute paths are unaffected.
   protocol: "uci"                  # "uci", "xboard" or "homemade"
-  ponder: true                     # Think on opponent's time.
+  ponder: false                     # Think on opponent's time.
 
   polyglot:
     enabled: false                 # Activate polyglot book.
@@ -27,16 +27,16 @@ engine:                            # Engine settings.
   draw_or_resign:
     resign_enabled: false          # Whether or not the bot should resign.
     resign_score: -1000            # If the score is less than or equal to this value, the bot resigns (in cp).
-    resign_for_egtb_minus_two: true # If true the bot will resign in positions where the online_egtb returns a wdl of -2.
+    resign_for_egtb_minus_two: false # If true the bot will resign in positions where the online_egtb returns a wdl of -2.
     resign_moves: 3                # How many moves in a row the score has to be below the resign value.
-    offer_draw_enabled: true       # Whether or not the bot should offer/accept draw.
+    offer_draw_enabled: false       # Whether or not the bot should offer/accept draw.
     offer_draw_score: 0            # If the absolute value of the score is less than or equal to this value, the bot offers/accepts draw (in cp).
-    offer_draw_for_egtb_zero: true # If true the bot will offer/accept draw in positions where the online_egtb returns a wdl of 0.
+    offer_draw_for_egtb_zero: false # If true the bot will offer/accept draw in positions where the online_egtb returns a wdl of 0.
     offer_draw_moves: 10           # How many moves in a row the absolute value of the score has to be below the draw value.
     offer_draw_pieces: 10          # Only if the pieces on board are less than or equal to this value, the bot offers/accepts draw.
 
   online_moves:
-    max_out_of_book_moves: 10      # Stop using online opening books after they don't have a move for 'max_out_of_book_moves' positions. Doesn't apply to the online endgame tablebases.
+    max_out_of_book_moves: 0      # Stop using online opening books after they don't have a move for 'max_out_of_book_moves' positions. Doesn't apply to the online endgame tablebases.
     max_retries: 2                 # The maximum amount of retries when getting an online move.
     # max_depth: 10                # How many moves from the start to take from online books. Default is no limit.
     chessdb_book:
@@ -87,15 +87,15 @@ engine:                            # Engine settings.
 #   Hash: 256
 
   uci_options:                     # Arbitrary UCI options passed to the engine.
-    Move Overhead: 100             # Increase if your bot flags games too often.
-    Threads: 4                     # Max CPU threads the engine can use.
-    Hash: 512                      # Max memory (in megabytes) the engine can allocate.
-    SyzygyPath: "./syzygy/"        # Paths to Syzygy endgame tablebases that the engine reads.
-    UCI_ShowWDL: true              # Show the chance of the engine winning.
-#   go_commands:                   # Additional options to pass to the UCI go command.
+#    Move Overhead: 100             # Increase if your bot flags games too often.
+#    Threads: 4                     # Max CPU threads the engine can use.
+#    Hash: 512                      # Max memory (in megabytes) the engine can allocate.
+#    SyzygyPath: "./syzygy/"        # Paths to Syzygy endgame tablebases that the engine reads.
+#    UCI_ShowWDL: true              # Show the chance of the engine winning.
+    go_commands:                   # Additional options to pass to the UCI go command.
 #     nodes: 1                     # Search so many nodes only.
-#     depth: 5                     # Search depth ply only.
-#     movetime: 1000               # Integer. Search exactly movetime milliseconds.
+      depth: 2                     # Search depth ply only.
+#      movetime: 10000               # Integer. Search exactly movetime milliseconds.
 
 # xboard_options:                  # Arbitrary XBoard options passed to the engine.
 #   cores: "4"
@@ -125,7 +125,7 @@ correspondence:
 challenge:                         # Incoming challenges.
   concurrency: 1                   # Number of games to play simultaneously.
   sort_by: "best"                  # Possible values: "best" and "first".
-  accept_bot: true                 # Accepts challenges coming from other bots.
+  accept_bot: false                 # Accepts challenges coming from other bots.
   only_bot: false                  # Accept challenges by bots only.
   max_increment: 20                # Maximum amount of increment to accept a challenge in seconds. The max is 180. Set to 0 for no increment.
   min_increment: 0                 # Minimum amount of increment to accept a challenge in seconds.
@@ -146,14 +146,14 @@ challenge:                         # Incoming challenges.
 #   - racingKings
 #   - threeCheck
   time_controls:                   # Time controls to accept.
-    - bullet
-    - blitz
-    - rapid
+#    - bullet
+#    - blitz
+#    - rapid
     - classical
 #   - correspondence
   modes:                           # Game modes to accept.
     - casual                       # Unrated games.
-    - rated                        # Rated games - must comment if the engine doesn't try to win.
+#    - rated                        # Rated games - must comment if the engine doesn't try to win.
 # block_list:                      # List of users from which the challenges are always declined.
 #   - user1
 #   - user2

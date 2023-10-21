@@ -1080,7 +1080,8 @@ def check_python_version() -> None:
             raise out_of_date_error
 
 
-if __name__ == "__main__":
+def main():
+    global restart
     multiprocessing.set_start_method('spawn')
     try:
         while restart:
@@ -1089,3 +1090,6 @@ if __name__ == "__main__":
             time.sleep(10 if restart else 0)
     except Exception:
         logger.exception("Quitting lichess-bot due to an error:")
+
+if __name__ == "__main__":
+    main()

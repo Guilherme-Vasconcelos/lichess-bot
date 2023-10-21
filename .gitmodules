@@ -1,0 +1,3 @@
+[submodule "engines/chessy"]
+	path = engines/chessy
+	url = git@github.com:Guilherme-Vasconcelos/chessy.git
